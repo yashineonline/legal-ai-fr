@@ -3,3 +3,5 @@ accelerate
 scikit-learn
 streamlit
 sentence-transformers
+datasets
+huggingface_hub
