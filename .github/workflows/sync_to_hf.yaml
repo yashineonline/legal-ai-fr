@@ -1,33 +1,35 @@
-name: Deploy to Hugging Face Spaces
+name: Deploy to Hugging Face
 
 on:
   push:
     paths:
       - 'hf/**'
       - '.github/workflows/hf-sync.yaml'
-  workflow_dispatch:  # enables manual run
-
+  workflow_dispatch:
 
 jobs:
-  deploy-to-hf:
-    name: Push hf/ to Hugging Face
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout full repository
+      - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Copy relevant files to temp directory
+      - name: Set up Git
         run: |
-          mkdir legal-hf
-          cp -r hf/* legal-hf/
+          git config --global user.email "yashineonline@gmail.com"
+          git config --global user.name "yashineonline"
 
-      - name: Push to Hugging Face Space
-        uses: huggingface/huggingface-cli-action@v1
-        with:
-          repo-type: space
-          space: yashineonline/legal-hf
-          token: ${{ secrets.HF_TOKEN }}
-          path: ./legal-hf
+      - name: Install dependencies
+        run: pip install huggingface_hub
 
-
+      - name: Push hf/ to Hugging Face Space
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          cd hf
+          git init
+          git remote add origin https://yashineonline:${HF_TOKEN}@huggingface.co/spaces/yashineonline/legal-hf
+          git add .
+          git commit -m "Auto update from GitHub Actions"
+          git push --force origin main
