@@ -15,25 +15,6 @@ st.title("🇫🇷 Legal Clause Assistant (RAG + NER)")
 query = st.text_input("Entrez une clause légale en français :")
 
 
-'''
-st.markdown("Upload a French legal document and extract entities (NER).")
-
-uploaded_file = st.file_uploader("Upload a .txt file", type=["txt"])
-if uploaded_file is not None:
-    text = uploaded_file.read().decode("utf-8")
-    st.text_area("Document Preview", text[:1000], height=200)
-
-    with st.spinner("Loading model..."):
-        model_name = "Jean-Baptiste/roberta-large-ner-english"  # placeholder
-        tokenizer = AutoTokenizer.from_pretrained(model_name)
-        model = AutoModelForTokenClassification.from_pretrained(model_name)
-        ner_pipeline = pipeline("ner", model=model, tokenizer=tokenizer, aggregation_strategy="simple")
-
-    with st.spinner("Extracting entities..."):
-        results = ner_pipeline(text)
-        for entity in results:
-            st.markdown(f"- **{entity['entity_group']}**: `{entity['word']}` (score: {entity['score']:.2f})")
-            '''
 
 if query:
     st.subheader("📌 RAG Answer")
