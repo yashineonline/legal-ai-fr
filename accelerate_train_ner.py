@@ -1,1 +1,0 @@
-# accelerate training script placeholder

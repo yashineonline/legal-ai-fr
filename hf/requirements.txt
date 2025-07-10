@@ -5,3 +5,5 @@ streamlit
 sentence-transformers
 datasets
 huggingface_hub
+torch
+spacy

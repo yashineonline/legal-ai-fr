@@ -3,3 +3,6 @@ __pycache__/
 *.ipynb_checkpoints
 *.DS_Store
 *.log
+venv/
+models/
+accelerate_train_ner.py

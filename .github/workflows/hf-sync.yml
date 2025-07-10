@@ -1,0 +1,27 @@
+# to test this one
+
+name: Sync to Hugging Face Spaces
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'hf/**'
+
+jobs:
+  sync-to-hf:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout GitHub repo
+        uses: actions/checkout@v3
+
+      - name: Push to Hugging Face Space
+        run: |
+          cd hf
+          git init
+          git branch -m main
+          git remote add origin https://yashineonline:${{ secrets.HF_TOKEN }}@huggingface.co/spaces/yashineonline/legal-hf
+          git add .
+          git commit -m "Auto update from GitHub Actions"
+          git push --force origin main
