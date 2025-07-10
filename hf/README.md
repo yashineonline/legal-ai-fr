@@ -1,4 +1,13 @@
-echo "Updated via GitHub CI/CD" >> hf/README.md
-git add hf/README.md
-git commit -m "Trigger CI/CD to Hugging Face"
-git push
+---
+title: Legal AI FR
+emoji: ⚖️
+colorFrom: indigo
+colorTo: gray
+sdk: streamlit
+app_file: app.py
+pinned: false
+---
+
+# Legal AI for French Documents
+
+This app demonstrates Named Entity Recognition and Legal Clause Tagging on French legal texts...
