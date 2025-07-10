@@ -1,0 +1,56 @@
+# app.py
+import streamlit as st
+from transformers import (
+    AutoTokenizer,
+    AutoModelForTokenClassification,
+    RagTokenizer,
+    RagRetriever,
+    RagSequenceForGeneration,
+    pipeline
+    )
+from sentence_transformers import SentenceTransformer
+import faiss
+import numpy as np
+import os
+from ner_utils import load_ner_model, predict_ner
+
+
+#import spacy
+
+
+
+st.set_page_config(page_title="Legal-AI FR", layout="wide")
+#st.set_page_config(page_title="Legal AI FR", page_icon="⚖️")
+
+st.title("🇫🇷 Legal Clause Assistant (RAG + NER)")
+#st.title("⚖️ Legal AI for French Legal Documents")
+
+from transformers import RagTokenizer, RagRetriever, RagSequenceForGeneration
+
+# Initialize RAG components
+tokenizer = RagTokenizer.from_pretrained("facebook/rag-token-nq")
+retriever = RagRetriever.from_pretrained("facebook/rag-token-nq", index_name="exact")
+model = RagSequenceForGeneration.from_pretrained("facebook/rag-token-nq", retriever=retriever)
+
+# Generate RAG response
+inputs = tokenizer(query, return_tensors="pt")
+outputs = model.generate(input_ids=inputs["input_ids"])
+st.success(tokenizer.decode(outputs[0], skip_special_tokens=True))
+
+
+query = st.text_input("Entrez une clause légale en français :")
+
+if query:
+    st.subheader("📌 RAG Answer")
+    rag_pipe = pipeline("text2text-generation", model="philschmid/bart-large-cnn-samsum")  # Placeholder RAG
+    rag_response = rag_pipe(query, max_length=200, do_sample=False)[0]['generated_text']
+    st.success(rag_response)
+
+    st.subheader("📑 NER Clause Tagging")
+    ner_model, tokenizer = load_ner_model("models/french_ner_model")
+    tags = predict_ner(query, ner_model, tokenizer)
+    st.write(tags)
+
+
+
+
