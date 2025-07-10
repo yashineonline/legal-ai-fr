@@ -2,11 +2,11 @@ name: Deploy to Hugging Face Spaces
 
 on:
   push:
-    branches:
-      - main
     paths:
       - 'hf/**'
       - '.github/workflows/hf-sync.yaml'
+  workflow_dispatch:  # enables manual run
+
 
 jobs:
   deploy-to-hf:
@@ -29,3 +29,5 @@ jobs:
           space: yashineonline/legal-hf
           token: ${{ secrets.HF_TOKEN }}
           path: ./legal-hf
+
+
